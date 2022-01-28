@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :challenge_mylads, ChallengeMylads.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "oban",
+  password: "oban",
   database: "challenge_mylads_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

@@ -15,9 +15,10 @@ defmodule ChallengeMylads.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: ChallengeMylads.PubSub},
       # Start the Endpoint (http/https)
-      ChallengeMyladsWeb.Endpoint
+      ChallengeMyladsWeb.Endpoint,
       # Start a worker by calling: ChallengeMylads.Worker.start_link(arg)
       # {ChallengeMylads.Worker, arg}
+      {Oban, oban_config()}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -32,5 +33,9 @@ defmodule ChallengeMylads.Application do
   def config_change(changed, _new, removed) do
     ChallengeMyladsWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp oban_config do
+    Application.fetch_env!(:challenge_mylads, Oban)
   end
 end

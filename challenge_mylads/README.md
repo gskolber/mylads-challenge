@@ -17,3 +17,13 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+## About
+
+Desafío para Elixir Developer
+Utilizando os seus conhecimentos em Elixir, deverá importar o arquivo CSV 1 em anexo,
+normaliza-lo para uma estrutura adequada que contenha os elementos do CSV. Após a
+normalização, deverá adicionar estes valores em um banco de dados.
+Este desafio deverá ser concluído em até 2 horas
+Boa sorte!
