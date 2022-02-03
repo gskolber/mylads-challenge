@@ -20,7 +20,7 @@ defmodule ChallengeMylads.MixProject do
   def application do
     [
       mod: {ChallengeMylads.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :mongodb, :poolboy]
     ]
   end
 
@@ -46,7 +46,9 @@ defmodule ChallengeMylads.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:csv, "~> 2.4"},
-      {:oban, "~> 2.10"}
+      {:oban, "~> 2.10"},
+      {:mongodb, "0.5.1"},
+      {:poolboy, ">= 0.0.0"}
     ]
   end
 

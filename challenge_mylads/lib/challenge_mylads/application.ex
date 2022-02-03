@@ -7,6 +7,8 @@ defmodule ChallengeMylads.Application do
 
   @impl true
   def start(_type, _args) do
+    import Supervisor.Spec
+
     children = [
       # Start the Ecto repository
       ChallengeMylads.Repo,
@@ -16,6 +18,7 @@ defmodule ChallengeMylads.Application do
       {Phoenix.PubSub, name: ChallengeMylads.PubSub},
       # Start the Endpoint (http/https)
       ChallengeMyladsWeb.Endpoint,
+      worker(Mongo, [[name: :database, url: database(), pool_size: 2]]),
       # Start a worker by calling: ChallengeMylads.Worker.start_link(arg)
       # {ChallengeMylads.Worker, arg}
       {Oban, oban_config()}
@@ -38,4 +41,12 @@ defmodule ChallengeMylads.Application do
   defp oban_config do
     Application.fetch_env!(:challenge_mylads, Oban)
   end
+
+  defp database,
+    do:
+      Application.get_env(
+        :challenge_mylads,
+        :url,
+        "mongodb+srv://teste:teste@cluster0.z3lgv.mongodb.net/mylads_challenge"
+      )
 end

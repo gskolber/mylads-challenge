@@ -1,28 +1,42 @@
 defmodule ChallengeMylads.Player do
-  use Ecto.Schema
-  import Ecto.Changeset
+  defstruct [
+    :club_id,
+    :player_id,
+    :career_stats,
+    :club_seniors,
+    :club_youth_honours,
+    :national_teams_seniors,
+    :national_team_youth_honours,
+    :total_seniors
+  ]
 
-  schema "player" do
-    field :club_id, :integer
-    field :player_id, :integer
-
-    has_many :career_stats, ChallengeMylads.Player.CareerStats
-    has_one :club_senior, ChallengeMylads.Player.ClubSeniors
-    has_one :club_youth_honours, ChallengeMylads.Player.ClubYouthHonours
-    has_one :national_teams_seniors, ChallengeMylads.Player.NationalTeamSeniors
-    has_one :national_team_youth_honours, ChallengeMylads.Player.NationalTeamYouthHonours
-    has_one :total_seniors, ChallengeMylads.Player.TotalSeniors
-    timestamps()
+  def bootstrap_player(params) do
+    %ChallengeMylads.Player{
+      player_id: Map.get(params, "player_id"),
+      club_id: Map.get(params, "club_id"),
+      club_seniors: normalize_map(Map.get(params, "club_seniors")),
+      club_youth_honours: normalize_map(Map.get(params, "club_youth_honours")),
+      national_teams_seniors: normalize_map(Map.get(params, "national_teams_seniors")),
+      national_team_youth_honours: normalize_map(Map.get(params, "national_team_youth_honours")),
+      total_seniors: normalize_map(Map.get(params, "\uFEFFtotal_seniors")),
+      career_stats: normalize_map(Map.get(params, "career_stats"))
+    }
   end
 
-  @doc false
-  def changeset(player, attrs) do
-    player
-    |> cast(attrs, [:club_id, :player_id])
+  def normalize_map(nil) do
+    nil
   end
 
-  def add_stats(player, attrs) do
-    player
-    |> cast(attrs, [:carrer_stats, :club_senior ,:club_youth_honours, :national_teams_seniors,:national_team_youth_honours])
+  def normalize_map(%{}) do
+    nil
+  end
+
+  def normalize_map(map) do
+    {:ok, new_map} =
+      map
+      |> String.replace("=>", ":")
+      |> Jason.decode()
+
+    new_map
   end
 end
