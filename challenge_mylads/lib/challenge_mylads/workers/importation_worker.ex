@@ -8,7 +8,9 @@ defmodule ChallengeMylads.ImportationWorker do
   def perform(%Oban.Job{args: %{"chunk" => chunk}}) do
     chunk
     |> Enum.each(fn element ->
-      create_basic_player_structure(element) |> Repo.insert()
+      if is_nil(check_if_player_exists(element["player_id"])) do
+        create_basic_player_structure(element) |> Repo.insert()
+      end
     end)
 
     :ok
@@ -16,5 +18,9 @@ defmodule ChallengeMylads.ImportationWorker do
 
   defp create_basic_player_structure(element) do
     Player.changeset(%Player{}, element)
+  end
+
+  defp check_if_player_exists(player_id) do
+    Repo.get_by(Player, %{player_id: player_id})
   end
 end
