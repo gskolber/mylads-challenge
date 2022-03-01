@@ -2,8 +2,14 @@ defmodule ChallengeMylads.Player do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ChallengeMylads.Player.{ClubSeniors, ClubYouthHonours, NationalTeamSeniors,
-  NationalTeamYouthHonours, TotalSeniors, CareerStats}
+  alias ChallengeMylads.Player.{
+    ClubSeniors,
+    ClubYouthHonours,
+    NationalTeamSeniors,
+    NationalTeamYouthHonours,
+    TotalSeniors,
+    CareerStats
+  }
 
   schema "player" do
     field :club_id, :integer
@@ -21,6 +27,7 @@ defmodule ChallengeMylads.Player do
   @doc false
   def changeset(player, attrs) do
     attrs = Map.merge(attrs, normalize_attrs(attrs))
+
     player
     |> cast(attrs, [:club_id, :player_id])
     |> cast_assoc(:club_senior, with: &ClubSeniors.changeset/2)
@@ -32,7 +39,6 @@ defmodule ChallengeMylads.Player do
   end
 
   def normalize_attrs(attrs) do
-
     club_senior = normalize_map(attrs["club_seniors"])
     club_youth_honours = normalize_map(attrs["club_youth_honours"])
     national_teams_seniors = normalize_map(attrs["national_teams_seniors"])
@@ -48,15 +54,14 @@ defmodule ChallengeMylads.Player do
       "total_seniors" => total_seniors,
       "career_stats" => career_stats
     }
-
   end
 
-  def normalize_map (map) do
-    {:ok, new_map} = map
-    |> String.replace("=>", ":")
-    |> Jason.decode()
+  def normalize_map(map) do
+    {:ok, new_map} =
+      map
+      |> String.replace("=>", ":")
+      |> Jason.decode()
 
-    IO.inspect(new_map)
     new_map
   end
 end

@@ -7,7 +7,6 @@ defmodule ChallengeMylads.Player.NationalTeamSeniors do
     field :goals, :integer
     belongs_to :player, ChallengeMylads.Player
 
-
     timestamps()
   end
 

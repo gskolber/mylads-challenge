@@ -8,5 +8,4 @@ defmodule ChallengeMylads.Repo.Migrations.Oban do
   def down do
     Oban.Migrations.down(version: 1)
   end
-
 end
